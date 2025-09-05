@@ -22,6 +22,9 @@
                 <span class="tagline">Catálogo Digital</span>
             </div>
             <div class="nav-actions">
+                <button class="nav-filter-btn" id="sidebar-open-btn" title="Filtros">
+                    <i class="fas fa-filter"></i>
+                </button>
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="Buscar produtos..." class="search-input">
                     <button class="search-btn"><i class="fas fa-search"></i></button>
@@ -132,6 +135,63 @@
             </div>
         </div>
     </div>
+
+    <!-- Sidebar Desktop -->
+    <div class="desktop-sidebar" id="desktop-sidebar">
+        <div class="sidebar-header">
+            <h3>Filtros</h3>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <div class="sidebar-section">
+                <h4>Categorias</h4>
+                <div class="sidebar-buttons">
+                    <button class="sidebar-btn active" data-category="all">Todas</button>
+                    <button class="sidebar-btn" data-category="luxo">Luxo</button>
+                    <button class="sidebar-btn" data-category="decoracao">Decoração</button>
+                    <button class="sidebar-btn" data-category="moda">Moda</button>
+                    <button class="sidebar-btn" data-category="tecnologia">Tecnologia</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Filtros</h4>
+                <div class="sidebar-buttons">
+                    <button class="sidebar-btn active" data-filter="all">Todos</button>
+                    <button class="sidebar-btn" data-filter="new">Novos</button>
+                    <button class="sidebar-btn" data-filter="sale">Promoções</button>
+                    <button class="sidebar-btn" data-filter="featured">Destaques</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Visualização</h4>
+                <div class="sidebar-view-controls">
+                    <button class="sidebar-view-btn active" data-view="grid">
+                        <i class="fas fa-th"></i>
+                        Grade
+                    </button>
+                    <button class="sidebar-view-btn" data-view="list">
+                        <i class="fas fa-list"></i>
+                        Lista
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Ordenar</h4>
+                <select class="sidebar-sort-select">
+                    <option value="name">Nome A-Z</option>
+                    <option value="price-low">Menor Preço</option>
+                    <option value="price-high">Maior Preço</option>
+                    <option value="newest">Mais Recentes</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Hero Section Elegante -->
     <section class="hero">

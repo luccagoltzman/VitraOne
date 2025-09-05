@@ -84,6 +84,25 @@ class VitraOneCatalog {
             mobileSortSelect.addEventListener('change', (e) => this.handleSort(e));
         }
 
+        // Sidebar desktop
+        const navFilterBtn = document.getElementById('sidebar-open-btn');
+        const desktopSidebar = document.getElementById('desktop-sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+
+        if (navFilterBtn) {
+            navFilterBtn.addEventListener('click', () => this.toggleDesktopSidebar());
+        }
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => this.closeDesktopSidebar());
+        }
+
+        // Ordenação sidebar desktop
+        const sidebarSortSelect = document.querySelector('.sidebar-sort-select');
+        if (sidebarSortSelect) {
+            sidebarSortSelect.addEventListener('change', (e) => this.handleSort(e));
+        }
+
         // Visualização
         document.querySelectorAll('[data-view]').forEach(btn => {
             btn.addEventListener('click', (e) => this.handleViewChange(e));
@@ -511,7 +530,7 @@ class VitraOneCatalog {
     }
 
     handleCategoryFilter(e) {
-        // Atualizar botões ativos (desktop e mobile)
+        // Atualizar botões ativos (desktop, mobile e sidebar)
         document.querySelectorAll('[data-category]').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -525,7 +544,7 @@ class VitraOneCatalog {
     }
 
     handleProductFilter(e) {
-        // Atualizar botões ativos (desktop e mobile)
+        // Atualizar botões ativos (desktop, mobile e sidebar)
         document.querySelectorAll('[data-filter]').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -544,7 +563,7 @@ class VitraOneCatalog {
     }
 
     handleViewChange(e) {
-        // Atualizar botões ativos (desktop e mobile)
+        // Atualizar botões ativos (desktop, mobile e sidebar)
         document.querySelectorAll('[data-view]').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -661,6 +680,28 @@ class VitraOneCatalog {
             mobileMenu.classList.remove('active');
             mobileMenuToggle.classList.remove('active');
             document.body.style.overflow = '';
+        }
+    }
+
+    toggleDesktopSidebar() {
+        const desktopSidebar = document.getElementById('desktop-sidebar');
+        const navFilterBtn = document.getElementById('sidebar-open-btn');
+        
+        if (desktopSidebar && navFilterBtn) {
+            desktopSidebar.classList.add('active');
+            navFilterBtn.classList.add('hidden');
+            document.body.classList.add('sidebar-active');
+        }
+    }
+
+    closeDesktopSidebar() {
+        const desktopSidebar = document.getElementById('desktop-sidebar');
+        const navFilterBtn = document.getElementById('sidebar-open-btn');
+        
+        if (desktopSidebar && navFilterBtn) {
+            desktopSidebar.classList.remove('active');
+            navFilterBtn.classList.remove('hidden');
+            document.body.classList.remove('sidebar-active');
         }
     }
 
