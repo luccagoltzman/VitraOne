@@ -15,6 +15,7 @@ class VitraOneCatalog {
 
     init() {
         this.loadSampleProducts();
+        this.loadCartFromStorage();
         this.setupEventListeners();
         this.setupScrollEffects();
         this.renderProducts();
@@ -121,9 +122,15 @@ class VitraOneCatalog {
 
         // Modal de produto
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.product-card')) {
-                const productId = e.target.closest('.product-card').dataset.productId;
-                if (productId) this.openProductModal(productId);
+            // Só abre modal se clicar na imagem, nome do produto ou área de visualização
+            if (e.target.closest('.product-image') || 
+                e.target.closest('.product-name') ||
+                e.target.closest('.quick-action-btn[title="Visualizar"]')) {
+                const productCard = e.target.closest('.product-card');
+                if (productCard) {
+                    const productId = productCard.dataset.productId;
+                    if (productId) this.openProductModal(productId);
+                }
             }
         });
 
@@ -165,6 +172,50 @@ class VitraOneCatalog {
                 }
             }
         });
+
+        // Operações do carrinho
+        document.addEventListener('click', (e) => {
+            const action = e.target.closest('[data-action]')?.dataset.action;
+            const cartItem = e.target.closest('.cart-item');
+            
+            if (!action || !cartItem) return;
+            
+            const productId = parseInt(cartItem.dataset.productId);
+            const qtyInput = cartItem.querySelector('.qty-input');
+            
+            switch (action) {
+                case 'increase':
+                    this.updateCartItemQuantity(productId, 1);
+                    break;
+                case 'decrease':
+                    this.updateCartItemQuantity(productId, -1);
+                    break;
+                case 'remove':
+                    this.removeFromCart(productId);
+                    break;
+            }
+        });
+
+        // Atualizar quantidade via input
+        document.addEventListener('change', (e) => {
+            if (e.target.classList.contains('qty-input') && e.target.closest('.cart-item')) {
+                const cartItem = e.target.closest('.cart-item');
+                const productId = parseInt(cartItem.dataset.productId);
+                const newQuantity = parseInt(e.target.value);
+                
+                if (newQuantity > 0) {
+                    this.setCartItemQuantity(productId, newQuantity);
+                } else {
+                    this.removeFromCart(productId);
+                }
+            }
+        });
+
+        // Finalizar compra
+        const checkoutBtn = document.querySelector('.btn-checkout');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => this.checkout());
+        }
     }
 
     setupScrollEffects() {
@@ -626,6 +677,7 @@ class VitraOneCatalog {
         }
         
         this.updateCartUI();
+        this.saveCartToStorage();
         this.showNotification(`${product.name} adicionado ao carrinho!`);
     }
 
@@ -640,11 +692,58 @@ class VitraOneCatalog {
 
     updateCartUI() {
         const cartCount = document.querySelector('.cart-count');
-        const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
         
+        const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Atualizar contador do carrinho
         if (cartCount) {
             cartCount.textContent = totalItems;
             cartCount.style.display = totalItems > 0 ? 'block' : 'none';
+        }
+        
+        // Atualizar total
+        if (cartTotal) {
+            cartTotal.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+        }
+        
+        // Renderizar itens do carrinho
+        if (cartItems) {
+            if (this.cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Carrinho vazio</h4>
+                        <p>Adicione alguns produtos ao seu carrinho</p>
+                    </div>
+                `;
+            } else {
+                cartItems.innerHTML = this.cart.map(item => `
+                    <div class="cart-item" data-product-id="${item.id}">
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</div>
+                            <div class="cart-item-qty">
+                                <button class="qty-control minus" data-action="decrease">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" value="${item.quantity}" min="1" class="qty-input" data-action="update">
+                                <button class="qty-control plus" data-action="increase">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" data-action="remove" title="Remover item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
         }
     }
 
@@ -652,6 +751,91 @@ class VitraOneCatalog {
         const cartSidebar = document.getElementById('cart-sidebar');
         if (cartSidebar) {
             cartSidebar.classList.toggle('active');
+        }
+    }
+
+    updateCartItemQuantity(productId, change) {
+        const item = this.cart.find(item => item.id === productId);
+        if (!item) return;
+
+        const newQuantity = item.quantity + change;
+        
+        if (newQuantity <= 0) {
+            this.removeFromCart(productId);
+        } else {
+            item.quantity = newQuantity;
+            this.updateCartUI();
+            this.saveCartToStorage();
+        }
+    }
+
+    setCartItemQuantity(productId, quantity) {
+        const item = this.cart.find(item => item.id === productId);
+        if (!item) return;
+
+        if (quantity <= 0) {
+            this.removeFromCart(productId);
+        } else {
+            item.quantity = quantity;
+            this.updateCartUI();
+            this.saveCartToStorage();
+        }
+    }
+
+    removeFromCart(productId) {
+        const itemIndex = this.cart.findIndex(item => item.id === productId);
+        if (itemIndex === -1) return;
+
+        const item = this.cart[itemIndex];
+        this.cart.splice(itemIndex, 1);
+        
+        this.updateCartUI();
+        this.saveCartToStorage();
+        this.showNotification(`${item.name} removido do carrinho!`);
+    }
+
+    clearCart() {
+        this.cart = [];
+        this.updateCartUI();
+        this.saveCartToStorage();
+        this.showNotification('Carrinho esvaziado!');
+    }
+
+    checkout() {
+        if (this.cart.length === 0) {
+            this.showNotification('Carrinho vazio! Adicione produtos antes de finalizar.');
+            return;
+        }
+
+        const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+        const totalPrice = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Simular processo de checkout
+        this.showNotification(`Compra finalizada! ${totalItems} itens por R$ ${totalPrice.toFixed(2).replace('.', ',')}`);
+        
+        // Limpar carrinho após checkout
+        this.clearCart();
+        this.toggleCart();
+    }
+
+    saveCartToStorage() {
+        try {
+            localStorage.setItem('vitraone_cart', JSON.stringify(this.cart));
+        } catch (error) {
+            console.error('Erro ao salvar carrinho:', error);
+        }
+    }
+
+    loadCartFromStorage() {
+        try {
+            const savedCart = localStorage.getItem('vitraone_cart');
+            if (savedCart) {
+                this.cart = JSON.parse(savedCart);
+                this.updateCartUI();
+            }
+        } catch (error) {
+            console.error('Erro ao carregar carrinho:', error);
+            this.cart = [];
         }
     }
 
