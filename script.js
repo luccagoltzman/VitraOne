@@ -543,11 +543,10 @@ class VitraOneCatalog {
                 <div class="product-info">
                     <div class="product-category">${this.getCategoryName(product.category)}</div>
                     <h3 class="product-name">${product.name}</h3>
-                    <p class="product-description">${product.description}</p>
+                    <p class="product-description">${product.description.length > 80 ? product.description.substring(0, 80) + '...' : product.description}</p>
                     <div class="product-price-container">
-                        <span class="current-price">R$ ${product.price.toFixed(2).replace('.', ',')}</span>
-                        ${product.originalPrice ? `<span class="original-price">R$ ${product.originalPrice.toFixed(2).replace('.', ',')}</span>` : ''}
-                        ${product.originalPrice ? `<span class="discount-badge">-${Math.round((1 - product.price / product.originalPrice) * 100)}%</span>` : ''}
+                        <span class="current-price ${product.originalPrice ? 'discounted-price' : ''}">R$ ${product.price.toFixed(2).replace('.', ',')}</span>
+                        ${product.originalPrice ? `<span class="discount-indicator">%</span>` : ''}
                     </div>
                     <div class="product-actions">
                         <button class="btn btn-primary btn-add-cart">
