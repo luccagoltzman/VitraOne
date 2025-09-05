@@ -24,7 +24,13 @@ class VitraOneCatalog {
         // Busca
         const searchInput = document.getElementById('search-input');
         if (searchInput) {
-            searchInput.addEventListener('input', (e) => this.handleSearch(e));
+            // Usar debounce para melhor performance
+            let searchTimeout;
+            const debouncedSearch = (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => this.handleSearch(e), 300);
+            };
+            searchInput.addEventListener('input', debouncedSearch);
         }
 
         // Filtros de categoria
@@ -369,7 +375,8 @@ class VitraOneCatalog {
         if (this.searchTerm) {
             filtered = filtered.filter(product => 
                 product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                product.description.toLowerCase().includes(this.searchTerm.toLowerCase())
+                product.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                product.category.toLowerCase().includes(this.searchTerm.toLowerCase())
             );
         }
 
