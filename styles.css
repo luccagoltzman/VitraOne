@@ -249,6 +249,12 @@ body {
     margin-top: 70px;
 }
 
+/* .hero-visual-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} */
+
 .hero-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2015,6 +2021,34 @@ body.sidebar-active {
         flex-direction: row;
         align-items: center;
         gap: 35px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* Esconder tagline "Catálogo Digital" em mobile */
+    .nav-brand .tagline {
+        display: none;
+    }
+    
+    /* Mostrar botão do carrinho no lugar da tagline */
+    .nav-brand .btn-cart {
+        display: flex;
+        position: static;
+        background: var(--gradient-accent);
+        border: none;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: 25px;
+        color: var(--primary-color);
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-medium);
+        z-index: auto;
+    }
+    
+    .nav-brand .btn-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-heavy);
     }
     
     .desktop-sidebar,
