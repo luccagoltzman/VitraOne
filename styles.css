@@ -246,7 +246,7 @@ body {
     background: var(--gradient-hero);
     color: var(--text-light);
     overflow: hidden;
-    margin-top: 80px;
+    margin-top: 70px;
 }
 
 .hero-content {
@@ -1088,7 +1088,6 @@ body {
     
     .hero {
         min-height: 50vh;
-        margin-top: 100px;
         padding: var(--spacing-xl) 0;
     }
     
@@ -1255,7 +1254,6 @@ body {
 @media (max-width: 480px) {
     .hero {
         min-height: 45vh;
-        margin-top: 140px;
         padding: var(--spacing-lg) 0;
     }
     
