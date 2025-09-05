@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitraOne - Catálogo Digital</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Elegante -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1 class="logo">VitraOne</h1>
+                <span class="tagline">Catálogo Digital</span>
+            </div>
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Buscar produtos..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="view-controls">
+                    <button class="view-btn active" data-view="grid" title="Grade">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" data-view="list" title="Lista">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+                <button class="btn-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section Elegante -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h2 class="hero-title">Catálogo de Produtos</h2>
+                <p class="hero-subtitle">Descubra nossa coleção cuidadosamente selecionada de produtos premium, apresentados com clareza e destaque em nossa vitrine digital.</p>
+            </div>
+            <div class="hero-visual">
+                <div class="product-showcase">
+                    <div class="product-card featured">
+                        <div class="product-image">
+                            <div class="product-badge">Destaque</div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Produto Premium</h3>
+                            <p class="product-price">R$ 299,90</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background">
+            <div class="gradient-overlay"></div>
+        </div>
+    </section>
+
+    <!-- Filtros Elegantes -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-container">
+                <div class="filter-group">
+                    <h3>Categorias</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-category="all">Todas</button>
+                        <button class="filter-btn" data-category="luxo">Luxo</button>
+                        <button class="filter-btn" data-category="decoracao">Decoração</button>
+                        <button class="filter-btn" data-category="moda">Moda</button>
+                        <button class="filter-btn" data-category="tecnologia">Tecnologia</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Filtros</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="new">Novos</button>
+                        <button class="filter-btn" data-filter="sale">Promoções</button>
+                        <button class="filter-btn" data-filter="featured">Destaques</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3>Ordenar</h3>
+                    <select class="sort-select">
+                        <option value="name">Nome A-Z</option>
+                        <option value="price-low">Menor Preço</option>
+                        <option value="price-high">Maior Preço</option>
+                        <option value="newest">Mais Recentes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produtos -->
+    <section class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nossos Produtos</h2>
+                <div class="results-info">
+                    <span>Mostrando <strong id="products-count">0</strong> produtos</span>
+                </div>
+            </div>
+            <div class="products-grid" id="products-grid">
+                <!-- Produtos serão carregados dinamicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Produto -->
+    <div class="product-modal" id="product-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img id="modal-main-image" src="" alt="">
+                    </div>
+                </div>
+                <div class="product-details">
+                    <h2 id="modal-product-name"></h2>
+                    <div class="product-price-container">
+                        <span class="current-price" id="modal-current-price"></span>
+                        <span class="original-price" id="modal-original-price"></span>
+                    </div>
+                    <div class="product-description" id="modal-description"></div>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="qty-btn minus">-</button>
+                            <input type="number" value="1" min="1" class="qty-input">
+                            <button class="qty-btn plus">+</button>
+                        </div>
+                        <button class="btn btn-primary btn-add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                        </button>
+                        <button class="btn btn-secondary btn-favorite">
+                            <i class="far fa-heart"></i> Favoritar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrinho -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Carrinho</h3>
+            <button class="cart-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Itens do carrinho -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: <strong id="cart-total">R$ 0,00</strong></span>
+            </div>
+            <button class="btn btn-primary btn-checkout">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
