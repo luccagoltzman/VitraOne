@@ -223,6 +223,11 @@ body {
     box-shadow: var(--shadow-medium);
 }
 
+/* Esconder botão do carrinho do nav-brand em desktop */
+.nav-brand .btn-cart {
+    display: none;
+}
+
 .cart-count {
     position: absolute;
     top: -8px;
@@ -2049,6 +2054,11 @@ body.sidebar-active {
     .nav-brand .btn-cart:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-heavy);
+    }
+    
+    /* Esconder botão do carrinho do nav-actions em mobile */
+    .nav-actions .btn-cart {
+        display: none;
     }
     
     .desktop-sidebar,
