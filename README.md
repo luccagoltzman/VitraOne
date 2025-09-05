@@ -133,11 +133,11 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 - Enviar pull requests
 - Melhorar a documentação
 
-## 📞 Contato
+<!-- ## 📞 Contato
 
 Para dúvidas ou sugestões, entre em contato:
 - Email: contato@vitraone.com
-- Website: [vitraone.com](https://vitraone.com)
+- Website: [vitraone.com](https://vitraone.com) -->
 
 ---
 
