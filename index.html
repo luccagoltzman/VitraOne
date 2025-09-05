@@ -13,6 +13,11 @@
     <header class="header">
         <nav class="nav">
             <div class="nav-brand">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
                 <h1 class="logo">VitraOne</h1>
                 <span class="tagline">Catálogo Digital</span>
             </div>
@@ -36,6 +41,97 @@
             </div>
         </nav>
     </header>
+
+    <!-- Menu Lateral Mobile -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-header">
+                <h2>Menu</h2>
+                <button class="mobile-menu-close" id="mobile-menu-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mobile-menu-body">
+                <div class="mobile-search">
+                    <input type="text" id="mobile-search-input" placeholder="Buscar produtos..." class="mobile-search-input">
+                    <button class="mobile-search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="mobile-menu-section">
+                    <h3>Categorias</h3>
+                    <div class="mobile-menu-links">
+                        <button class="mobile-menu-link active" data-category="all">
+                            <i class="fas fa-th-large"></i>
+                            Todas
+                        </button>
+                        <button class="mobile-menu-link" data-category="luxo">
+                            <i class="fas fa-gem"></i>
+                            Luxo
+                        </button>
+                        <button class="mobile-menu-link" data-category="decoracao">
+                            <i class="fas fa-home"></i>
+                            Decoração
+                        </button>
+                        <button class="mobile-menu-link" data-category="moda">
+                            <i class="fas fa-tshirt"></i>
+                            Moda
+                        </button>
+                        <button class="mobile-menu-link" data-category="tecnologia">
+                            <i class="fas fa-laptop"></i>
+                            Tecnologia
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mobile-menu-section">
+                    <h3>Filtros</h3>
+                    <div class="mobile-menu-links">
+                        <button class="mobile-menu-link active" data-filter="all">
+                            <i class="fas fa-filter"></i>
+                            Todos
+                        </button>
+                        <button class="mobile-menu-link" data-filter="new">
+                            <i class="fas fa-star"></i>
+                            Novos
+                        </button>
+                        <button class="mobile-menu-link" data-filter="sale">
+                            <i class="fas fa-tag"></i>
+                            Promoções
+                        </button>
+                        <button class="mobile-menu-link" data-filter="featured">
+                            <i class="fas fa-heart"></i>
+                            Destaques
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mobile-menu-section">
+                    <h3>Visualização</h3>
+                    <div class="mobile-view-controls">
+                        <button class="mobile-view-btn active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                            Grade
+                        </button>
+                        <button class="mobile-view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                            Lista
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mobile-menu-section">
+                    <h3>Ordenar</h3>
+                    <select class="mobile-sort-select">
+                        <option value="name">Nome A-Z</option>
+                        <option value="price-low">Menor Preço</option>
+                        <option value="price-high">Maior Preço</option>
+                        <option value="newest">Mais Recentes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section Elegante -->
     <section class="hero">
@@ -63,43 +159,6 @@
         </div>
     </section>
 
-    <!-- Filtros Elegantes -->
-    <section class="filters-section">
-        <div class="container">
-            <div class="filters-container">
-                <div class="filter-group">
-                    <h3>Categorias</h3>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-category="all">Todas</button>
-                        <button class="filter-btn" data-category="luxo">Luxo</button>
-                        <button class="filter-btn" data-category="decoracao">Decoração</button>
-                        <button class="filter-btn" data-category="moda">Moda</button>
-                        <button class="filter-btn" data-category="tecnologia">Tecnologia</button>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h3>Filtros</h3>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">Todos</button>
-                        <button class="filter-btn" data-filter="new">Novos</button>
-                        <button class="filter-btn" data-filter="sale">Promoções</button>
-                        <button class="filter-btn" data-filter="featured">Destaques</button>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h3>Ordenar</h3>
-                    <select class="sort-select">
-                        <option value="name">Nome A-Z</option>
-                        <option value="price-low">Menor Preço</option>
-                        <option value="price-high">Maior Preço</option>
-                        <option value="newest">Mais Recentes</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Produtos -->
     <section class="products">

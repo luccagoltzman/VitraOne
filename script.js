@@ -33,6 +33,35 @@ class VitraOneCatalog {
             searchInput.addEventListener('input', debouncedSearch);
         }
 
+        // Busca mobile
+        const mobileSearchInput = document.getElementById('mobile-search-input');
+        if (mobileSearchInput) {
+            let mobileSearchTimeout;
+            const debouncedMobileSearch = (e) => {
+                clearTimeout(mobileSearchTimeout);
+                mobileSearchTimeout = setTimeout(() => this.handleSearch(e), 300);
+            };
+            mobileSearchInput.addEventListener('input', debouncedMobileSearch);
+        }
+
+        // Menu mobile
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => this.toggleMobileMenu());
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => this.closeMobileMenu());
+        }
+
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', () => this.closeMobileMenu());
+        }
+
         // Filtros de categoria
         document.querySelectorAll('[data-category]').forEach(btn => {
             btn.addEventListener('click', (e) => this.handleCategoryFilter(e));
@@ -47,6 +76,12 @@ class VitraOneCatalog {
         const sortSelect = document.querySelector('.sort-select');
         if (sortSelect) {
             sortSelect.addEventListener('change', (e) => this.handleSort(e));
+        }
+
+        // Ordenação mobile
+        const mobileSortSelect = document.querySelector('.mobile-sort-select');
+        if (mobileSortSelect) {
+            mobileSortSelect.addEventListener('change', (e) => this.handleSort(e));
         }
 
         // Visualização
@@ -476,7 +511,7 @@ class VitraOneCatalog {
     }
 
     handleCategoryFilter(e) {
-        // Atualizar botões ativos
+        // Atualizar botões ativos (desktop e mobile)
         document.querySelectorAll('[data-category]').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -484,10 +519,13 @@ class VitraOneCatalog {
         
         this.currentCategory = e.target.dataset.category;
         this.renderProducts();
+        
+        // Fechar menu mobile após seleção
+        this.closeMobileMenu();
     }
 
     handleProductFilter(e) {
-        // Atualizar botões ativos
+        // Atualizar botões ativos (desktop e mobile)
         document.querySelectorAll('[data-filter]').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -495,6 +533,9 @@ class VitraOneCatalog {
         
         this.currentFilter = e.target.dataset.filter;
         this.renderProducts();
+        
+        // Fechar menu mobile após seleção
+        this.closeMobileMenu();
     }
 
     handleSort(e) {
@@ -503,7 +544,7 @@ class VitraOneCatalog {
     }
 
     handleViewChange(e) {
-        // Atualizar botões ativos
+        // Atualizar botões ativos (desktop e mobile)
         document.querySelectorAll('[data-view]').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -511,6 +552,9 @@ class VitraOneCatalog {
         
         this.currentView = e.target.dataset.view;
         this.renderProducts();
+        
+        // Fechar menu mobile após seleção
+        this.closeMobileMenu();
     }
 
     openProductModal(productId) {
@@ -589,6 +633,34 @@ class VitraOneCatalog {
         const cartSidebar = document.getElementById('cart-sidebar');
         if (cartSidebar) {
             cartSidebar.classList.toggle('active');
+        }
+    }
+
+    toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        
+        if (mobileMenu && mobileMenuToggle) {
+            mobileMenu.classList.toggle('active');
+            mobileMenuToggle.classList.toggle('active');
+            
+            // Prevenir scroll do body quando menu estiver aberto
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+    }
+
+    closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        
+        if (mobileMenu && mobileMenuToggle) {
+            mobileMenu.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            document.body.style.overflow = '';
         }
     }
 
